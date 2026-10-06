@@ -45,7 +45,7 @@ public class FileManager {
                 final var pageSource = new DriverProvider().get().getPageSource();
 
                 if (pageSource != null) {
-                    fileWriter.write(Jsoup.parse(pageSource).toString());
+                    fileWriter.write(formatPageSource(pageSource));
                 }
                 fileWriter.close();
             }
@@ -83,6 +83,10 @@ public class FileManager {
     public static String getPageSource() {
 
         final var pageSource = new DriverProvider().get().getPageSource();
-        return pageSource != null ? Jsoup.parse(pageSource).toString() : "Error al tomar el page source";
+        return pageSource != null ? formatPageSource(pageSource) : "Error al tomar el page source";
+    }
+
+    private static String formatPageSource(String pageSource) {
+        return Jsoup.parse(pageSource).toString();
     }
 }

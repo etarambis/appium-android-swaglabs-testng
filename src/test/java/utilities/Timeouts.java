@@ -8,7 +8,7 @@ package utilities;
 public final class Timeouts {
     /** Espera por defecto para elementos y pantallas. */
     public static final int DEFAULT_WAIT = read("timeout.default", 5);
-    /** Espera de mensajes de error que aparecen tras una accion. */
+    /** Espera de mensajes de error que aparecen tras una acción. */
     public static final int ERROR_MESSAGE_WAIT = read("timeout.errorMessage", 3);
     /** Espera de pantallas que tardan mas en cargar (detalle de item). */
     public static final int SLOW_PAGE_WAIT = read("timeout.slowPage", 20);

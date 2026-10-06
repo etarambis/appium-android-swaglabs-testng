@@ -4,7 +4,6 @@ import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import utilities.BasePage;
 import utilities.Gestures;
 import utilities.Logs;
@@ -51,7 +50,8 @@ public class ItemDetailPage extends BasePage {
         softAssert().assertAll();
 
         Gestures.swipeVertical(50,70,30, find(canvas));
-        Assert.assertTrue(find(addCartButton).isDisplayed(), "El botón de agregar al carrito no está visible");
+        softAssert().assertTrue(find(addCartButton).isDisplayed(), "El botón de agregar al carrito no está visible");
+        softAssert().assertAll();
 
     }
 

@@ -3,7 +3,6 @@ package pages;
 import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import utilities.BasePage;
 import utilities.Logs;
 
@@ -37,7 +36,8 @@ public class TopBar extends BasePage {
     @Step("Verificando la cantidad de ítems en el carrito")
     public void verifyItemCount(int expected) {
         Logs.info("Verificando la cantidad de ítems en el carrito: %d", expected);
-        Assert.assertEquals(Integer.parseInt(find(itemCartCountLabel).getText()), expected);
+        softAssert().assertEquals(Integer.parseInt(find(itemCartCountLabel).getText()), expected);
+        softAssert().assertAll();
     }
 
     @Step("Haciendo clic en el carrito (checkout)")

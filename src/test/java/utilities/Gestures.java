@@ -31,58 +31,22 @@ public class Gestures {
     }
 
     public static void tap(WebElement element) {
-        final var centerPoint = getCenterPoint(element);
-        final var sequence = new Sequence(FINGER, 1);
-
-        Logs.debug("Moviendo el dedo hacia el elemento");
-        sequence.addAction(
-                FINGER.createPointerMove(
-                        Duration.ofMillis(MOVE_TO_ELEMENT_MS),
-                        PointerInput.Origin.viewport(),
-                        centerPoint
-                )
-        );
-
-        Logs.debug("Presionando el elemento");
-        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-
-        Logs.debug("Esperando 1 segundo");
-        sequence.addAction(new Pause(FINGER, Duration.ofMillis(TAP_HOLD_MS)));
-
-        Logs.debug("Dejando de presionar el elemento");
-        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        getDriver().perform(List.of(sequence));
+        pressElement(element, TAP_HOLD_MS, 1);
     }
 
     public static void longTap(WebElement element) {
-        final var centerPoint = getCenterPoint(element);
-        final var sequence = new Sequence(FINGER, 1);
-
-        Logs.debug("Moviendo el dedo hacia el elemento");
-        sequence.addAction(
-                FINGER.createPointerMove(
-                        Duration.ofMillis(MOVE_TO_ELEMENT_MS),
-                        PointerInput.Origin.viewport(),
-                        centerPoint
-                )
-        );
-
-        Logs.debug("Presionando el elemento");
-        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-
-        Logs.debug("Esperando 3.5 segundos");
-        sequence.addAction(new Pause(FINGER, Duration.ofMillis(LONG_TAP_HOLD_MS)));
-
-        Logs.debug("Dejando de presionar el elemento");
-        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        getDriver().perform(List.of(sequence));
-
-
+        pressElement(element, LONG_TAP_HOLD_MS, 1);
     }
 
     public static void doubleTap(WebElement element) {
+        pressElement(element, TAP_HOLD_MS, 2);
+    }
+
+    /**
+     * Mueve el dedo al centro del elemento y lo presiona {@code times} veces,
+     * manteniendo cada pulsacion {@code holdMs} milisegundos.
+     */
+    private static void pressElement(WebElement element, int holdMs, int times) {
         final var centerPoint = getCenterPoint(element);
         final var sequence = new Sequence(FINGER, 1);
 
@@ -95,18 +59,17 @@ public class Gestures {
                 )
         );
 
-        for (var i = 0; i < 2; i++) { //2 veces
+        for (var i = 0; i < times; i++) {
             Logs.debug("Presionando el elemento");
             sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
-            Logs.debug("Esperando 1 segundo");
-            sequence.addAction(new Pause(FINGER, Duration.ofMillis(TAP_HOLD_MS)));
+            Logs.debug("Esperando %d ms", holdMs);
+            sequence.addAction(new Pause(FINGER, Duration.ofMillis(holdMs)));
 
             Logs.debug("Dejando de presionar el elemento");
             sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         }
 
-        Logs.debug("Ejecutando las acciones");
         getDriver().perform(List.of(sequence));
     }
 

@@ -68,8 +68,8 @@ public abstract class BasePage {
         getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
     }
 
-    public abstract void waitPageToLoad(); //esperar que cargue la pagina
+    public abstract void waitPageToLoad(); //esperar que cargue la pantalla
 
-    public abstract void verifyPage(); //verificar la UI de la pagina
+    public abstract void verifyPage(); //verificar la UI de la pantalla
 
 }

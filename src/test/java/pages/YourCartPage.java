@@ -11,7 +11,7 @@ public class YourCartPage extends BasePage {
     private final By itemList = AppiumBy.accessibilityId("test-Item");
     private final By deleteButton = AppiumBy.accessibilityId("test-Delete");
     // "test-Cart Content" es el ScrollView del carrito (validado con el page source real).
-    // El boton CHECKOUT queda fuera de pantalla, por lo que se hace scroll hasta encontrarlo.
+    // El botón CHECKOUT queda fuera de pantalla, por lo que se hace scroll hasta encontrarlo.
     private final By checkoutButton = AppiumBy.androidUIAutomator(
             "new UiScrollable(new UiSelector().description(\"test-Cart Content\"))" +
                     ".scrollIntoView(new UiSelector().description(\"test-CHECKOUT\"))");
