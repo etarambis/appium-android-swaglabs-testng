@@ -36,6 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
 ### Proyecto ###
 .allure/
 .idea/workspace.xml
@@ -43,3 +44,8 @@ app_log.txt
 src/test/resources/screenshots/
 src/test/resources/pageStructure/
 src/test/resources/logs/
+*.log
+allure-results/
+allure-report/
+*.iml
+.idea/

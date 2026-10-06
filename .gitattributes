@@ -1,0 +1,8 @@
+# Normaliza los finales de linea; los scripts de shell y mvnw deben ser LF para correr en Linux/macOS.
+* text=auto
+*.sh text eol=lf
+mvnw text eol=lf
+*.cmd text eol=crlf
+*.apk binary
+*.xlsx binary
+*.png binary
