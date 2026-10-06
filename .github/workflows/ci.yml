@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  compile:
+    name: Compilar (mvn test-compile)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # Los tests de este proyecto necesitan un emulador Android y un servidor Appium,
+      # que un runner de GitHub Actions no tiene. Por eso el CI solo verifica que el
+      # codigo y las dependencias compilan; NO ejecuta los tests.
+      - name: Compilar codigo y tests
+        run: ./mvnw -B -ntp test-compile
