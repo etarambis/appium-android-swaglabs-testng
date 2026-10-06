@@ -1,5 +1,6 @@
 package data;
 
+import exceptions.FrameworkException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.CredentialJson;
 import utilities.Logs;
@@ -17,7 +18,7 @@ public class JsonReader {
             return objectMapper.readValue(new File(CREDENTIALS_PATH), CredentialJson.class);
         } catch (IOException ioException) {
             Logs.error("Error al leer del JSON: %s", ioException.getLocalizedMessage());
-            throw new RuntimeException(ioException.getLocalizedMessage());
+            throw new FrameworkException("No se pudo leer el archivo de credenciales: " + CREDENTIALS_PATH, ioException);
         }
     }
 }

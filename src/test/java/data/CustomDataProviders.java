@@ -25,9 +25,9 @@ public class CustomDataProviders {
         final var errorMessageMap = Parser.getErrorMessageMap(); //leido de excel y convertido a map
 
         return new Object[][]{
-                {"", user.getLastname(), user.getZipcode(), errorMessageMap.get("error_name").getMessage()},
-                {user.getName(), "", user.getZipcode(), errorMessageMap.get("error_lastname").getMessage()},
-                {user.getName(), user.getLastname(), "", errorMessageMap.get("error_zipcode").getMessage()}
+                {"", user.getLastname(), user.getZipcode(), Parser.getErrorMessage(errorMessageMap, "error_name")},
+                {user.getName(), "", user.getZipcode(), Parser.getErrorMessage(errorMessageMap, "error_lastname")},
+                {user.getName(), user.getLastname(), "", Parser.getErrorMessage(errorMessageMap, "error_zipcode")}
         };
     }
 }

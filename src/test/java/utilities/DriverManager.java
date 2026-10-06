@@ -1,5 +1,6 @@
 package utilities;
 
+import exceptions.FrameworkException;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
@@ -11,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DriverManager {
+    private static final String APPIUM_URL = "http://127.0.0.1:4723/";
     private static final int DRIVER_CREATION_ATTEMPTS = 2;
 
     private final boolean runServer = System.getenv("JOB_NAME") != null;
@@ -46,11 +48,10 @@ public class DriverManager {
     private void buildLocalDriver(){
         try {
 
-            final var appiumUrl = "http://127.0.0.1:4723/";
             final var desiredCapabilities = getDesiredLocalCapabilities();
 
             Logs.debug("Inicializando el driver");
-            final var driver = createDriver(new URL(appiumUrl), desiredCapabilities);
+            final var driver = createDriver(new URL(APPIUM_URL), desiredCapabilities);
 
             Logs.debug("Asignando el driver al driver provider");
             new DriverProvider().set(driver);
@@ -58,7 +59,7 @@ public class DriverManager {
         } catch (MalformedURLException malformedURLException) {
 
             Logs.error("Error al inicializar el driver: %s", malformedURLException.getMessage());
-            throw new RuntimeException(malformedURLException);
+            throw new FrameworkException("URL de Appium inválida: " + APPIUM_URL, malformedURLException);
         }
     }
 

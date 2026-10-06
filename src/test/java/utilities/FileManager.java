@@ -1,5 +1,6 @@
 package utilities;
 
+import exceptions.FrameworkException;
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
@@ -28,7 +29,7 @@ public class FileManager {
             FileUtils.copyFile(screenshotFile, new File(path));
         } catch (IOException ioException) {
             Logs.error("Error al guardar el screenshot: %s", ioException.getLocalizedMessage());
-            throw new RuntimeException(ioException);
+            throw new FrameworkException("No se pudo guardar el screenshot '" + screenshotName + "' en " + path, ioException);
         }
 
     }
@@ -53,7 +54,7 @@ public class FileManager {
         } catch (IOException ioException) {
 
             Logs.error("Error al tomar el page source: %s", ioException.getLocalizedMessage());
-            throw new RuntimeException(ioException);
+            throw new FrameworkException("No se pudo guardar el page source '" + fileName + "' en " + path, ioException);
 
         }
     }
@@ -66,7 +67,7 @@ public class FileManager {
             FileUtils.deleteDirectory(new File(PAGE_SOURCE_PATH));
         } catch (IOException ioException) {
             Logs.error("Error al eliminar los screenshots previos: %s", ioException.getLocalizedMessage());
-            throw new RuntimeException(ioException);
+            throw new FrameworkException("No se pudo eliminar la evidencia previa en " + SCREENSHOTS_PATH + " y " + PAGE_SOURCE_PATH, ioException);
         }
 
     }
