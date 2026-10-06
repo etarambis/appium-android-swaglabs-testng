@@ -2,6 +2,7 @@ package utilities;
 
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
@@ -24,8 +25,22 @@ public class DriverManager {
     }
 
     public void killDriver(){
-        Logs.debug("Matando al driver");
-        new DriverProvider().get().quit();
+        final var driverProvider = new DriverProvider();
+        final var driver = driverProvider.get();
+
+        if (driver == null) {
+            Logs.debug("No hay driver que cerrar");
+            return;
+        }
+
+        try {
+            Logs.debug("Matando al driver");
+            driver.quit();
+        } catch (WebDriverException webDriverException) {
+            Logs.error("Error al cerrar el driver: %s", webDriverException.getMessage());
+        } finally {
+            driverProvider.remove(); //evita que el driver quede asociado al hilo para el siguiente test
+        }
     }
 
     private void buildLocalDriver(){

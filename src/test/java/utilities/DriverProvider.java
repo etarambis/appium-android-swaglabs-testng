@@ -15,4 +15,8 @@ public class DriverProvider {
         return ThreadLocal.get();
     }
 
+    public void remove() {
+        ThreadLocal.remove();
+    }
+
 }
