@@ -196,7 +196,7 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
 
 ## Problemas conocidos
 
-> Estado verificado en emulador (Android, Appium 3.7.0): la suite `regression` se ejecutó con 15 de 18 pasados y 3 omitidos; tras la última corrección, `YourInformationTests` pasa 3 de 3. **No se ha vuelto a ejecutar la suite completa después de ese último cambio.**
+> Estado verificado en emulador (Android, Appium 3.7.0): la suite `regression` completa se ejecutó con **18 de 18 tests pasados** (0 fallidos, 0 omitidos, sin reintentos activados), en unos 8 minutos.
 
 | Test | Causa | Estado |
 |---|---|---|
