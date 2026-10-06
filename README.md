@@ -44,7 +44,7 @@ AppiumTestNG/
 │   └── test/
 │       ├── java/
 │       │   ├── data/            # Lectura de datos y DataProviders
-│       │   ├── listeners/       # Listeners de TestNG y de Allure
+│       │   ├── listeners/       # Listeners de TestNG y Allure, y reintentos de infraestructura
 │       │   ├── models/          # POJOs (Credential, ErrorMessage, User...)
 │       │   ├── pages/           # Page Objects de cada pantalla
 │       │   ├── saucedemo/       # Clases de test
@@ -64,7 +64,7 @@ AppiumTestNG/
 |---|---|
 | `pages` | Un Page Object por pantalla: `LoginPage`, `ShoppingPage`, `ItemDetailPage`, `YourCartPage`, `YourInformationPage`, `TopBar`, `BurgerMenu`. Cada uno define sus locators y acciones con `@Step`. |
 | `saucedemo` | Clases de test. Todas extienden `BaseTest`. |
-| `utilities` | `BaseTest` (setup/teardown del driver y listeners), `BasePage` (esperas y helpers), `CommonFlows` (flujos reutilizables de navegación), `DriverManager`/`DriverProvider` (creación y `ThreadLocal` del driver), `Gestures` (tap, long tap, double tap, drag, swipe), `Deeplinks`, `ContextUtilities`, `FileManager` (screenshots y page source), `Logs`. |
+| `utilities` | `BaseTest` (setup/teardown del driver y listeners), `BasePage` (esperas y helpers), `CommonFlows` (flujos reutilizables de navegación), `DriverManager`/`DriverProvider` (creación y `ThreadLocal` del driver), `Gestures` (tap, long tap, double tap, drag, swipe), `Groups` (constantes de grupos), `Timeouts` (esperas centralizadas), `Deeplinks`, `ContextUtilities`, `FileManager` (screenshots y page source), `Logs`. |
 | `data` | `DataGiver` (credenciales), `JsonReader`, `ExcelReader`, `Parser` y `CustomDataProviders`. |
 | `models` | `Credential`, `CredentialJson`, `ErrorMessage` (Poiji), `User` (Datafaker). |
 | `listeners` | `TestListeners` (ITestListener), `SuiteListeners` (ISuiteListener) y `AllureListeners` (adjunta evidencia en Allure). |
@@ -114,6 +114,18 @@ No se define `deviceName`/`udid`: Appium usa el dispositivo o emulador conectado
 - `src/test/resources/data/credenciales.json`: credenciales `valid`, `locked` e `invalid` con su mensaje de error esperado. Se leen con `JsonReader` y se exponen con `DataGiver`.
 - `src/test/resources/data/dataExcel.xlsx` (hoja `mensajes`, columnas `NOMBRE` y `MENSAJE`): mensajes de error del formulario *Your Information* (`error_name`, `error_lastname`, `error_zipcode`). Se leen con Poiji (`ExcelReader` → `Parser`).
 - `models.User` genera nombre, apellido y código postal aleatorios con Datafaker.
+
+### Timeouts y reintentos
+Los timeouts (segundos) viven en `utilities/Timeouts.java` y se pueden sobrescribir por línea de comandos:
+
+| Propiedad | Por defecto | Uso |
+|---|---|---|
+| `-Dtimeout.default` | 5 | Espera general de elementos y pantallas |
+| `-Dtimeout.errorMessage` | 3 | Mensajes de error tras una acción |
+| `-Dtimeout.slowPage` | 20 | Pantalla de detalle del ítem |
+| `-Dretry.max` | 1 | Reintentos por fallo de infraestructura (0 los desactiva) |
+
+Ejemplo: `./mvnw clean test -Dtimeout.default=10 -Dretry.max=0`
 
 ### Allure
 `src/test/resources/allure.properties` define `allure.results.directory=target/allure-results` y los patrones de enlaces `issue`/`tms` hacia Trello.
@@ -182,12 +194,25 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
 
 ## Problemas conocidos
 
-Última ejecución registrada en `target/surefire-reports`: 18 tests, 13 pasados, 1 fallido y 4 omitidos.
+> **Importante:** los fallos de estabilidad de abajo **no se han podido verificar en un emulador** tras las correcciones. Se documentan con su causa probable y su estado real, sin darlos por resueltos.
 
-- **`ItemDetailTests`**: inestable. El `@BeforeMethod` (`goToItemDetailPage`) depende de tocar la imagen por índice y de una espera de 20 s por la pantalla de detalle; cuando falla, se omiten los tests de la clase. `DeeplinkTests.itemDetailDeeplinkTest` también ha fallado esperando esa misma pantalla.
-- **`YourInformationTests`**: inestable. Su `setUp` recorre login, arrastre de ítems al carrito y checkout; los arrastres (`Gestures.dragTo`) son sensibles al rendimiento del emulador y al estado de la lista.
-- `DriverManager.buildRemoteDriver()` no está implementado.
-- No hay archivo de configuración de Log4j2 en el proyecto, por lo que se aplica la configuración por defecto de Log4j2.
+| Test | Causa | Estado |
+|---|---|---|
+| `ItemDetailTests` (todos) y `DeeplinkTests.itemDetailDeeplinkTest` | `ItemDetailPage.canvas` buscaba `android.view.ScrollView`, pero el page source guardado por el propio test fallido muestra la pantalla ya cargada con `android.widget.ScrollView`. La espera de 20 s agotaba su tiempo con la pantalla visible, y al fallar el `setUp` se omitían los tests de la clase. | **Corregido en el código, pendiente de verificar en emulador.** Causa respaldada por evidencia (page source). |
+| `YourInformationTests` | **Sin causa confirmada ni reproducida.** Hipótesis: (A) `YourCartPage.clickCheckout` hace swipe sobre `test-Cart Content`, un locator no validado contra la UI real; (B) los dos arrastres del `setUp` (`Gestures.dragTo`, unos 5 s cada uno) son sensibles a animaciones y rendimiento del emulador; (C) `verifyErrorMessage` no esperaba el mensaje. | Mitigaciones aplicadas para B y C (animaciones desactivadas, espera explícita). **A sigue pendiente: validar `test-Cart Content` con Appium Inspector.** |
+| `ShoppingPage.changeViewMode` | Ahora espera los `test-Drag Handle` en lugar de dormir 1,5 s. Se asume que esos elementos solo existen en modo lista. | **Supuesto pendiente de validar con Appium Inspector.** |
+
+Otros puntos pendientes:
+
+- `DriverManager.buildRemoteDriver()` no está implementado (con `JOB_NAME` definida no se crea ningún driver).
+- No hay archivo de configuración de Log4j2 en el proyecto, por lo que se aplica la configuración por defecto.
+
+### Medidas de estabilidad implementadas
+
+- **Esperas explícitas** en lugar de `sleep` fijos; los timeouts están centralizados en `utilities/Timeouts.java`.
+- **Animaciones desactivadas** con la capability `appium:disableWindowAnimation=true`.
+- **Reintentos acotados a infraestructura:** `InfraRetryAnalyzer` (registrado vía `RetryTransformer`) reintenta un test una vez solo si falla por sesión perdida o servidor Appium inalcanzable. Los fallos de aserción, locators o esperas **nunca** se reintentan. `DriverManager` reintenta una vez la creación de la sesión. Se verificó con una prueba sintética (sin emulador) que se reintenta un fallo de infraestructura y no uno de aserción.
+- **Sin estado compartido:** el `SoftAssert` es por hilo y se reinicia antes de cada test, y el driver se cierra siempre en `@AfterMethod` (aunque la sesión no se haya creado) y se libera del `ThreadLocal`.
 
 ## Solución de problemas
 
@@ -208,12 +233,12 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
 - Un Page Object por pantalla; los tests **no** usan locators directamente.
 - Los locators se declaran como `private final By` al inicio de la página.
 - Prefiere `AppiumBy.accessibilityId` (la app expone ids `test-*`) y evita XPath cuando sea posible.
-- Usa esperas explícitas (`waitForDisplayed`, `waitPage`) en lugar de `sleep`.
+- Usa esperas explícitas (`waitForDisplayed`, `waitPage`), nunca `sleep`, y toma los tiempos de `Timeouts`; no escribas valores mágicos.
 - Cada acción pública de una página lleva `@Step` y `Logs.info(...)`.
 - Reutiliza flujos de navegación en `CommonFlows`; no repitas el login en cada test.
 - Los datos viven en `resources/data` (JSON/Excel) o se generan con Datafaker; no los dejes escritos en los tests.
 - Cada test debe ser independiente: el driver se crea y cierra por método en `BaseTest`.
-- Etiqueta cada test con `groups` (`regression`, `smoke`).
+- Etiqueta cada test con `groups` usando las constantes de `Groups` (`Groups.REGRESSION`, `Groups.SMOKE`).
 
 ## Cómo agregar una nueva página
 
@@ -232,8 +257,8 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
        @Override
        @Step("Verificando la pagina Mi Pagina")
        public void verifyPage() {
-           softAssert.assertTrue(find(titulo).isDisplayed());
-           softAssert.assertAll();
+           softAssert().assertTrue(find(titulo).isDisplayed());
+           softAssert().assertAll();
        }
    }
    ```
@@ -252,7 +277,7 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
            commonFlows.goToMiPagina();
        }
 
-       @Test(groups = {regression})
+       @Test(groups = {Groups.REGRESSION})
        public void verifyUITest() {
            miPagina.verifyPage();
        }
