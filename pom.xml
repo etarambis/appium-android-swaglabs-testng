@@ -13,6 +13,17 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.9.24</aspectj.version>
+
+        <!-- Versiones de dependencias. Selenium no se fija aqui: lo trae java-client (4.50.0) y mantenerlo asi evita desalinearlos. -->
+        <testng.version>7.10.2</testng.version>
+        <appium.java-client.version>10.1.1</appium.java-client.version>
+        <allure.version>2.34.0</allure.version>
+        <log4j.version>2.26.1</log4j.version>
+        <poiji.version>5.4.0</poiji.version>
+        <datafaker.version>2.7.0</datafaker.version>
+        <jackson.version>2.22.2</jackson.version>
+        <jsoup.version>1.23.2</jsoup.version>
+        <commons-io.version>2.21.0</commons-io.version>
     </properties>
 
     <build>
@@ -49,61 +60,75 @@
         </plugins>
     </build>
 
+    <!-- Todo el codigo vive en src/test: las dependencias van en scope test. -->
     <dependencies>
-        <!-- Source: https://mvnrepository.com/artifact/org.jsoup/jsoup -->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.23.2</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.10.2</version>
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/io.appium/java-client -->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>10.1.1</version>
+            <version>${appium.java-client.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
-            <version>2.34.0</version>
+            <version>${allure.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.26.1</version>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.26.1</version>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/com.github.ozlerhakan/poiji -->
+        <!-- Binding SLF4J 1.x -> Log4j2. TestNG 7.10.2 usa slf4j-api 1.7.36; sin binding SLF4J descarta sus logs (NOP). -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.ozlerhakan</groupId>
             <artifactId>poiji</artifactId>
-            <version>5.4.0</version>
+            <version>${poiji.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/net.datafaker/datafaker -->
         <dependency>
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
-            <version>2.7.0</version>
+            <version>${datafaker.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.22.2</version>
+            <version>${jackson.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Usado directamente en FileManager; antes llegaba solo de forma transitiva por Poiji. -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
