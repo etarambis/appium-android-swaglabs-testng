@@ -3,6 +3,7 @@ package pages;
 import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import utilities.BasePage;
 import utilities.Gestures;
 import utilities.Logs;
@@ -61,12 +62,27 @@ public class ShoppingPage extends BasePage {
     @Step("Arrastrando ítems hacia la barra para agregar al carrito según cantidad")
     public void addToCartDrag(int cantidad) {
         Logs.info("Arrastrando ítems hacia la barra para agregar al carrito según cantidad");
-        final var destinyElement = find(dropZone);
-
         for (int i = 0; i < cantidad; i++) {
-            final var handleListElements = findAll(handleList);
-            final var originElement = handleListElements.get(0);
-            Gestures.dragTo(originElement, destinyElement);
+            dragFirstItemToCart();
+        }
+    }
+
+    // La lista se vuelve a renderizar después de cada arrastre, por eso se
+    // buscan los elementos en cada intento y se reintenta ante un stale.
+    private void dragFirstItemToCart() {
+        final var maxAttempts = 3;
+        for (int attempt = 1; ; attempt++) {
+            try {
+                final var originElement = findAll(handleList).get(0);
+                final var destinyElement = find(dropZone);
+                Gestures.dragTo(originElement, destinyElement);
+                return;
+            } catch (StaleElementReferenceException e) {
+                if (attempt == maxAttempts) {
+                    throw e;
+                }
+                Logs.info("Elemento obsoleto, reintentando arrastre (intento %d)", attempt + 1);
+            }
         }
     }
 
