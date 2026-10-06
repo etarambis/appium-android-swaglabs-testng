@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import pages.TopBar;
 import pages.YourCartPage;
 import utilities.BaseTest;
+import utilities.Groups;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class YourCartTests extends BaseTest {
         commonFlows.goToYourCartPage(List.of(1, 2));
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void deleteSwipeTest() {
         yourCartPage.deleteItemFromList(0);
         topBar.verifyItemCount(1);

@@ -7,6 +7,7 @@ import pages.LoginPage;
 import pages.ShoppingPage;
 import pages.TopBar;
 import utilities.BaseTest;
+import utilities.Groups;
 
 public class BurgerMenuTests extends BaseTest {
     private final LoginPage loginPage = new LoginPage();
@@ -19,13 +20,13 @@ public class BurgerMenuTests extends BaseTest {
         commonFlows.openBurgerMenu();
     }
 
-    @Test(groups = {regression, smoke})
+    @Test(groups = {Groups.REGRESSION, Groups.SMOKE})
     public void logoutTest() {
         burgerMenu.clickLogout();
         loginPage.waitPageToLoad();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void closeButtonTest() {
         burgerMenu.clickCloseX();
         shoppingPage.waitPageToLoad();

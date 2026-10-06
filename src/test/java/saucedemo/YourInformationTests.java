@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.YourInformationPage;
 import utilities.BaseTest;
+import utilities.Groups;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class YourInformationTests extends BaseTest {
     }
 
     @Test(
-            groups = {regression},
+            groups = {Groups.REGRESSION},
             dataProviderClass = CustomDataProviders.class,
             dataProvider = CustomDataProviders.DP_ERROR_MESSAGE
     )

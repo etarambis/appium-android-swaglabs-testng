@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.ShoppingPage;
 import utilities.BaseTest;
+import utilities.Groups;
 
 public class LoginTests extends BaseTest {
 
@@ -20,7 +21,7 @@ public class LoginTests extends BaseTest {
     }
 
     @Test(
-            groups = {regression, smoke},
+            groups = {Groups.REGRESSION, Groups.SMOKE},
             dataProviderClass = CustomDataProviders.class,
             dataProvider = CustomDataProviders.DP_CREDENTIALS
     )
@@ -29,19 +30,19 @@ public class LoginTests extends BaseTest {
         loginPage.verifyErrorMessage(message);
     }
 
-    @Test(groups = {regression, smoke})
+    @Test(groups = {Groups.REGRESSION, Groups.SMOKE})
     public void verifyUITest() {
         loginPage.verifyPage();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void tapStandardUserTest() {
         loginPage.fillDataTap();
         shoppingPage.waitPageToLoad();
         shoppingPage.verifyPage();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void verifyCredentialsLabelsTest() {
         loginPage.verifyLabels();
     }

@@ -6,6 +6,7 @@ import pages.ItemDetailPage;
 import pages.LoginPage;
 import pages.ShoppingPage;
 import utilities.BaseTest;
+import utilities.Groups;
 
 public class ItemDetailTests extends BaseTest {
     private final LoginPage loginPage = new LoginPage();
@@ -18,19 +19,19 @@ public class ItemDetailTests extends BaseTest {
         commonFlows.goToItemDetailPage(0);
     }
 
-    @Test(groups = {regression, smoke})
+    @Test(groups = {Groups.REGRESSION, Groups.SMOKE})
     public void verifyUITest() {
         itemDetailPage.verifyPage();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void backProductsTest() {
         itemDetailPage.clickBackProducts();
         shoppingPage.waitPageToLoad();
         shoppingPage.verifyPage();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void pressBackTest() {
         itemDetailPage.pressBack();
         shoppingPage.waitPageToLoad();

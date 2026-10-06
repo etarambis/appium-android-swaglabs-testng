@@ -6,6 +6,7 @@ import pages.LoginPage;
 import pages.ShoppingPage;
 import pages.TopBar;
 import utilities.BaseTest;
+import utilities.Groups;
 import utilities.Logs;
 
 
@@ -21,12 +22,12 @@ public class ShoppingTests extends BaseTest {
         commonFlows.goToShoppingPage();
     }
 
-    @Test(groups = {regression, smoke})
+    @Test(groups = {Groups.REGRESSION, Groups.SMOKE})
     public void verifyUITest() {
         shoppingPage.verifyPage();
     }
 
-    @Test(groups = {regression})
+    @Test(groups = {Groups.REGRESSION})
     public void dragDropItemCartTest() {
         shoppingPage.changeViewMode();
         shoppingPage.addToCartDrag( 3);

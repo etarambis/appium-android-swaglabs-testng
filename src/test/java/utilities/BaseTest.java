@@ -10,8 +10,6 @@ import org.testng.annotations.Listeners;
 @Listeners({TestListeners.class, SuiteListeners.class})
 public class BaseTest {
 
-    protected final String smoke = "smoke";
-    protected final String regression = "regression";
     protected final CommonFlows commonFlows = new CommonFlows();
     private final DriverManager driverManager = new DriverManager();
 
