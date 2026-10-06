@@ -33,7 +33,6 @@ public class ItemDetailPage extends BasePage {
     @Override
     @Step("Esperando a que cargue la pagina del detalle del item")
     public void waitPageToLoad() {
-        //waitPage(canvas, this.getClass().getSimpleName());
         waitForDisplayed(canvas, 20);
         Logs.info("ItemDetailPage ha cargado satisfactoriamente");
     }

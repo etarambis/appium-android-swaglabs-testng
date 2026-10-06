@@ -2,12 +2,10 @@ package saucedemo;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.LoginPage;
 import pages.ShoppingPage;
 import pages.TopBar;
 import utilities.BaseTest;
 import utilities.Groups;
-import utilities.Logs;
 
 
 public class ShoppingTests extends BaseTest {
@@ -30,7 +28,7 @@ public class ShoppingTests extends BaseTest {
     @Test(groups = {Groups.REGRESSION})
     public void dragDropItemCartTest() {
         shoppingPage.changeViewMode();
-        shoppingPage.addToCartDrag( 3);
+        shoppingPage.addToCartDrag(3);
         topBar.verifyItemCount(3);
     }
 

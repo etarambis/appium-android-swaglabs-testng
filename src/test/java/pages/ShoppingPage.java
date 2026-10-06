@@ -43,7 +43,7 @@ public class ShoppingPage extends BasePage {
     public void clickItemImage(int index) {
         Logs.info("Haciendo click en la imagen del item segun su index");
         final var elements = findAll(imageList);
-        Logs.info("Cantidad de imagenes encontradas: " + elements.size()); // TEMPORAL
+        Logs.info("Cantidad de imagenes encontradas: %d", elements.size());
         elements.get(index).click();
     }
 
@@ -68,6 +68,11 @@ public class ShoppingPage extends BasePage {
         }
     }
 
+    /**
+     * Agrega al carrito tantos items como elementos tenga la lista.
+     * Solo se usa la cantidad ({@code itemListAdd.size()}): los valores de la lista
+     * no seleccionan items concretos; siempre se arrastra el primer item visible.
+     */
     @Step("Arrastrando items hacia la barra para agregar al carrito segun lista")
     public void addToCartDrag(List<Integer> itemListAdd) {
         addToCartDrag(itemListAdd.size());

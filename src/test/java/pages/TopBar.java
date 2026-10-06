@@ -14,8 +14,9 @@ public class TopBar extends BasePage {
             "new UiSelector().description(\"test-Cart\").childSelector(new UiSelector().className(\"android.widget.TextView\"))");
 
     @Override
+    @Step("Esperando que la barra superior cargue")
     public void waitPageToLoad() {
-        // TODO document why this method is empty
+        waitPage(burgerButton, this.getClass().getSimpleName());
     }
 
     @Override
@@ -23,7 +24,7 @@ public class TopBar extends BasePage {
     public void verifyPage() {
         Logs.info("Verificando la barra superior");
         softAssert.assertTrue(find(burgerButton).isDisplayed());
-        softAssert.assertTrue(find(burgerButton).isDisplayed());
+        softAssert.assertTrue(find(checkoutButton).isDisplayed());
         softAssert.assertAll();
     }
 

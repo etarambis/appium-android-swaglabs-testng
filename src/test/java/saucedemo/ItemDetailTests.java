@@ -3,13 +3,11 @@ package saucedemo;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.ItemDetailPage;
-import pages.LoginPage;
 import pages.ShoppingPage;
 import utilities.BaseTest;
 import utilities.Groups;
 
 public class ItemDetailTests extends BaseTest {
-    private final LoginPage loginPage = new LoginPage();
     private final ShoppingPage shoppingPage = new ShoppingPage();
     private final ItemDetailPage itemDetailPage = new ItemDetailPage();
 

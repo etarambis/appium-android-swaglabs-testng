@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import pages.BurgerMenu;
 import pages.LoginPage;
 import pages.ShoppingPage;
-import pages.TopBar;
 import utilities.BaseTest;
 import utilities.Groups;
 
