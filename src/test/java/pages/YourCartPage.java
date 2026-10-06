@@ -10,10 +10,11 @@ import utilities.Logs;
 public class YourCartPage extends BasePage {
     private final By itemList = AppiumBy.accessibilityId("test-Item");
     private final By deleteButton = AppiumBy.accessibilityId("test-Delete");
-    private final By checkoutButton = AppiumBy.accessibilityId("test-CHECKOUT");
-    // TODO(validar con Appium Inspector): "test-Cart Content" no esta en ningun page source guardado;
-    // confirmar que es el contenedor desplazable de YourCartPage antes de confiar en el swipe de clickCheckout.
-    private final By canvas = AppiumBy.accessibilityId("test-Cart Content");
+    // "test-Cart Content" es el ScrollView del carrito (validado con el page source real).
+    // El boton CHECKOUT queda fuera de pantalla, por lo que se hace scroll hasta encontrarlo.
+    private final By checkoutButton = AppiumBy.androidUIAutomator(
+            "new UiScrollable(new UiSelector().description(\"test-Cart Content\"))" +
+                    ".scrollIntoView(new UiSelector().description(\"test-CHECKOUT\"))");
 
     @Override
     @Step("Esperando que la pagina de your cart cargue")
@@ -43,7 +44,6 @@ public class YourCartPage extends BasePage {
     @Step("Haciendo click en el boton de checkout")
     public void clickCheckout() {
         Logs.info("Haciendo click en el boton de checkout");
-        Gestures.swipeVertical(50, 80, 40, find(canvas));
         find(checkoutButton).click();
     }
 
