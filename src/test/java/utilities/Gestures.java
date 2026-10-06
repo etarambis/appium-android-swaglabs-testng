@@ -23,7 +23,7 @@ public class Gestures {
     private static final int SWIPE_PAUSE_MS = 1000;
     private static final int SWIPE_MOVE_MS = 1000;
 
-    private static final PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    private static final PointerInput FINGER = new PointerInput(PointerInput.Kind.TOUCH, "FINGER");
 
     private static AndroidDriver getDriver() {
         return new DriverProvider().get();
@@ -31,51 +31,51 @@ public class Gestures {
     }
 
     public static void tap(WebElement element) {
-        final var puntoCentro = getCenterPoint(element);
-        final var sequence = new Sequence(finger, 1);
+        final var centerPoint = getCenterPoint(element);
+        final var sequence = new Sequence(FINGER, 1);
 
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
-                        puntoCentro
+                        centerPoint
                 )
         );
 
         Logs.debug("Presionando el elemento");
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Esperando 1 segundo");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(TAP_HOLD_MS)));
+        sequence.addAction(new Pause(FINGER, Duration.ofMillis(TAP_HOLD_MS)));
 
         Logs.debug("Dejando de presionar el elemento");
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         getDriver().perform(List.of(sequence));
     }
 
     public static void longTap(WebElement element) {
-        final var puntoCentro = getCenterPoint(element);
-        final var sequence = new Sequence(finger, 1);
+        final var centerPoint = getCenterPoint(element);
+        final var sequence = new Sequence(FINGER, 1);
 
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
-                        puntoCentro
+                        centerPoint
                 )
         );
 
         Logs.debug("Presionando el elemento");
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Esperando 3.5 segundos");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(LONG_TAP_HOLD_MS)));
+        sequence.addAction(new Pause(FINGER, Duration.ofMillis(LONG_TAP_HOLD_MS)));
 
         Logs.debug("Dejando de presionar el elemento");
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         getDriver().perform(List.of(sequence));
 
@@ -83,67 +83,67 @@ public class Gestures {
     }
 
     public static void doubleTap(WebElement element) {
-        final var puntoCentro = getCenterPoint(element);
-        final var sequence = new Sequence(finger, 1);
+        final var centerPoint = getCenterPoint(element);
+        final var sequence = new Sequence(FINGER, 1);
 
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
-                        puntoCentro
+                        centerPoint
                 )
         );
 
         for (var i = 0; i < 2; i++) { //2 veces
             Logs.debug("Presionando el elemento");
-            sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
             Logs.debug("Esperando 1 segundo");
-            sequence.addAction(new Pause(finger, Duration.ofMillis(TAP_HOLD_MS)));
+            sequence.addAction(new Pause(FINGER, Duration.ofMillis(TAP_HOLD_MS)));
 
             Logs.debug("Dejando de presionar el elemento");
-            sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         }
 
         Logs.debug("Ejecutando las acciones");
         getDriver().perform(List.of(sequence));
     }
 
-    public static void dragTo(WebElement elementOrigen, WebElement elementDestino) {
-        final var centerPointOrigen = getCenterPoint(elementOrigen);
-        final var centerPointDestino = getCenterPoint(elementDestino);
-        final var sequence = new Sequence(finger, 1);
+    public static void dragTo(WebElement originElement, WebElement destinationElement) {
+        final var originCenter = getCenterPoint(originElement);
+        final var destinationCenter = getCenterPoint(destinationElement);
+        final var sequence = new Sequence(FINGER, 1);
 
-        //1. Movemos el dedo hacia el elemento origen
+        //1. Movemos el dedo hacia el elemento de origen
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(DRAG_APPROACH_MS), //duración de la acción
                         PointerInput.Origin.viewport(), //área donde se hará la acción
-                        centerPointOrigen //punto donde se hará la acción con respecto al canvas
+                        originCenter //punto donde se hará la acción con respecto al canvas
                 )
         );
 
         //2. Tocamos la pantalla bajando el dedo
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         //3. Agregamos una pequeña pausa
-        sequence.addAction(new Pause(finger, Duration.ofMillis(DRAG_PRESS_MS)));
+        sequence.addAction(new Pause(FINGER, Duration.ofMillis(DRAG_PRESS_MS)));
 
-        //4. Arrastramos hacia el elemento destino
+        //4. Arrastramos hacia el elemento de destino
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(DRAG_MOVE_MS), //duración de la acción
                         PointerInput.Origin.viewport(), //área donde se hará la acción
-                        centerPointDestino //punto donde se hará la acción con respecto al canvas
+                        destinationCenter //punto donde se hará la acción con respecto al canvas
                 )
         );
 
         //5. Agregamos una pequeña pausa
-        sequence.addAction(new Pause(finger, Duration.ofMillis(DRAG_RELEASE_MS)));
+        sequence.addAction(new Pause(FINGER, Duration.ofMillis(DRAG_RELEASE_MS)));
 
         //6. Dejamos de tocar la pantalla levantando el dedo
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         //7. Finalmente, ejecutamos las acciones
         getDriver().perform(List.of(sequence));
@@ -151,67 +151,67 @@ public class Gestures {
 
 
     public static void swipeGeneral(
-            double porcentajeXInicial,
-            double porcentajeYInicial,
-            double porcentajeXFinal,
-            double porcentajeYFinal,
+            double startPercentX,
+            double startPercentY,
+            double endPercentX,
+            double endPercentY,
             WebElement element
     ) {
-        final var puntoInicial =
-                getElementPointUsingPercentages(porcentajeXInicial, porcentajeYInicial, element);
-        final var puntoFinal =
-                getElementPointUsingPercentages(porcentajeXFinal, porcentajeYFinal, element);
-        swipeGeneralPuntos(puntoInicial, puntoFinal);
+        final var startPoint =
+                getElementPointUsingPercentages(startPercentX, startPercentY, element);
+        final var endPoint =
+                getElementPointUsingPercentages(endPercentX, endPercentY, element);
+        swipeGeneralPuntos(startPoint, endPoint);
     }
 
     public static void swipeHorizontal(
-            double porcentajeY,
-            double porcentajeXInicial,
-            double porcentajeXFinal,
+            double percentY,
+            double startPercentX,
+            double endPercentX,
             WebElement element
     ) {
-        swipeGeneral(porcentajeXInicial, porcentajeY, porcentajeXFinal, porcentajeY, element);
+        swipeGeneral(startPercentX, percentY, endPercentX, percentY, element);
     }
 
     public static void swipeVertical(
-            double porcentajeX,
-            double porcentajeYInicial,
-            double porcentajeYFinal,
+            double percentX,
+            double startPercentY,
+            double endPercentY,
             WebElement element
     ) {
-        swipeGeneral(porcentajeX, porcentajeYInicial, porcentajeX, porcentajeYFinal, element);
+        swipeGeneral(percentX, startPercentY, percentX, endPercentY, element);
     }
 
-    private static void swipeGeneralPuntos(Point origen, Point destino) {
-        Logs.debug("Haciendo swipe desde el punto %s hasta el punto %s", origen, destino);
-        final var sequence = new Sequence(finger, 1);
+    private static void swipeGeneralPuntos(Point origin, Point destination) {
+        Logs.debug("Haciendo swipe desde el punto %s hasta el punto %s", origin, destination);
+        final var sequence = new Sequence(FINGER, 1);
 
         Logs.debug("Movemos el dedo hacia la posicion inicial");
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ZERO,
                         PointerInput.Origin.viewport(),
-                        origen
+                        origin
                 )
         );
 
         Logs.debug("Tocamos la pantalla en el punto de origen");
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Agregamos una breve  pausa");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(SWIPE_PAUSE_MS)));
+        sequence.addAction(new Pause(FINGER, Duration.ofMillis(SWIPE_PAUSE_MS)));
 
         Logs.debug("Movemos el dedo hacia la posicion final");
         sequence.addAction(
-                finger.createPointerMove(
+                FINGER.createPointerMove(
                         Duration.ofMillis(SWIPE_MOVE_MS),
                         PointerInput.Origin.viewport(),
-                        destino
+                        destination
                 )
         );
 
         Logs.debug("Dejamos de tocar la pantalla en el punto de destino");
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Ejecutando las acciones");
         getDriver().perform(List.of(sequence));
@@ -221,13 +221,13 @@ public class Gestures {
 
 
     private static Point getCenterPoint(WebElement element) {
-        final var ubicacionElemento = element.getLocation();
-        final var tamanoElemento = element.getSize();
+        final var elementLocation = element.getLocation();
+        final var elementSize = element.getSize();
 
-        final var centroX = ubicacionElemento.getX() + tamanoElemento.getWidth() / 2;
-        final var centroY = ubicacionElemento.getY() + tamanoElemento.getHeight() / 2;
+        final var centerX = elementLocation.getX() + elementSize.getWidth() / 2;
+        final var centerY = elementLocation.getY() + elementSize.getHeight() / 2;
 
-        return new Point(centroX, centroY);
+        return new Point(centerX, centerY);
     }
 
     private static Point getElementPointUsingPercentages(
@@ -235,14 +235,14 @@ public class Gestures {
             double percentageY,
             WebElement element
     ) {
-        final var ubicacion = element.getLocation();
-        final var tamano = element.getSize();
+        final var location = element.getLocation();
+        final var size = element.getSize();
 
-        final var xDelta = (percentageX / 100) * tamano.getWidth();
-        final var yDelta = (percentageY / 100) * tamano.getHeight();
+        final var xDelta = (percentageX / 100) * size.getWidth();
+        final var yDelta = (percentageY / 100) * size.getHeight();
 
-        final var x = (int) (ubicacion.getX() + xDelta);
-        final var y = (int) (ubicacion.getY() + yDelta);
+        final var x = (int) (location.getX() + xDelta);
+        final var y = (int) (location.getY() + yDelta);
 
         return new Point(x, y);
     }

@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class FileManager {
 
-    private static final String screenshotsPath = "src/test/resources/screenshots/";
-    private static final String pageSourcePath  = "src/test/resources/pageStructure/";
+    private static final String SCREENSHOTS_PATH = "src/test/resources/screenshots/";
+    private static final String PAGE_SOURCE_PATH  = "src/test/resources/pageStructure/";
 
 
     public static void getScreenshot(String screenshotName) {
@@ -22,20 +22,20 @@ public class FileManager {
         final var screenshotFile = ((TakesScreenshot) new DriverProvider().get())
                 .getScreenshotAs(OutputType.FILE);
 
-        final var path = String.format("%s/%s.png", screenshotsPath, screenshotName);
+        final var path = String.format("%s/%s.png", SCREENSHOTS_PATH, screenshotName);
 
         try {
             FileUtils.copyFile(screenshotFile, new File(path));
-        } catch (IOException ioExeption) {
-            Logs.error("Error al guardar el screenshot: %s", ioExeption.getLocalizedMessage());
-            throw new RuntimeException(ioExeption);
+        } catch (IOException ioException) {
+            Logs.error("Error al guardar el screenshot: %s", ioException.getLocalizedMessage());
+            throw new RuntimeException(ioException);
         }
 
     }
 
     public static void getPageSource(String fileName) {
         Logs.debug("Guardando estructura de la página: " + fileName);
-        final var path = String.format("%s/%s.xml", pageSourcePath, fileName);
+        final var path = String.format("%s/%s.xml", PAGE_SOURCE_PATH, fileName);
 
         try {
             final var file = new File(path);
@@ -62,8 +62,8 @@ public class FileManager {
 
         try {
             Logs.debug("Eliminando screenshots previos");
-            FileUtils.deleteDirectory(new File(screenshotsPath));
-            FileUtils.deleteDirectory(new File(pageSourcePath));
+            FileUtils.deleteDirectory(new File(SCREENSHOTS_PATH));
+            FileUtils.deleteDirectory(new File(PAGE_SOURCE_PATH));
         } catch (IOException ioException) {
             Logs.error("Error al eliminar los screenshots previos: %s", ioException.getLocalizedMessage());
             throw new RuntimeException(ioException);

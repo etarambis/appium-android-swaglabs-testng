@@ -4,19 +4,19 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class DriverProvider {
 
-    private static final ThreadLocal<AndroidDriver> ThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<AndroidDriver> DRIVER = new ThreadLocal<>();
 
     public void set(AndroidDriver driver) {
-        ThreadLocal.set(driver);
+        DRIVER.set(driver);
     }
 
 
     public AndroidDriver get() {
-        return ThreadLocal.get();
+        return DRIVER.get();
     }
 
     public void remove() {
-        ThreadLocal.remove();
+        DRIVER.remove();
     }
 
 }
