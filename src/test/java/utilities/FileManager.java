@@ -39,7 +39,7 @@ public class FileManager {
 
         try {
             final var file = new File(path);
-            Logs.debug("Creando los directorios padres si es que no existen ");
+            Logs.debug("Creando los directorios padres si no existen");
             if (file.getParentFile().mkdir()) {
                 final var fileWriter = new FileWriter(file);
                 final var pageSource = new DriverProvider().get().getPageSource();
@@ -83,6 +83,6 @@ public class FileManager {
     public static String getPageSource() {
 
         final var pageSource = new DriverProvider().get().getPageSource();
-        return pageSource != null ? Jsoup.parse(pageSource).toString() : "Error al tomar el page Source";
+        return pageSource != null ? Jsoup.parse(pageSource).toString() : "Error al tomar el page source";
     }
 }

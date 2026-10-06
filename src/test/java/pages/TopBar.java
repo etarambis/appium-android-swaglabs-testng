@@ -28,21 +28,21 @@ public class TopBar extends BasePage {
         softAssert().assertAll();
     }
 
-    @Step("Abriendo el burger menu")
+    @Step("Abriendo el Burger Menu")
     public void openBurgerMenu() {
-        Logs.info("Abriendo el burger menu");
+        Logs.info("Abriendo el Burger Menu");
         find(burgerButton).click();
     }
 
-    @Step("Verificando la cantidad de items en el carrito")
+    @Step("Verificando la cantidad de ítems en el carrito")
     public void verifyItemCount(int expected) {
-        Logs.info("Verificando la cantidad de items en el carrito: %d", expected);
+        Logs.info("Verificando la cantidad de ítems en el carrito: %d", expected);
         Assert.assertEquals(Integer.parseInt(find(itemCartCountLabel).getText()), expected);
     }
 
-    @Step("Haciendo click en checkout")
+    @Step("Haciendo clic en el carrito (checkout)")
     public void clickCheckout() {
-        Logs.info("Haciendo click en checkout");
+        Logs.info("Haciendo clic en el carrito (checkout)");
         find(checkoutButton).click();
     }
 

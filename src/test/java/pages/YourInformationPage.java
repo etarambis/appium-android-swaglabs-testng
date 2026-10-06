@@ -18,15 +18,15 @@ public class YourInformationPage extends BasePage {
                     ".childSelector(new UiSelector().className(\"android.widget.TextView\"))");
 
     @Override
-    @Step("Esperando que la pagina de your information page cargue")
+    @Step("Esperando que cargue la pantalla Your Information")
     public void waitPageToLoad() {
         waitPage(firstNameInput, this.getClass().getSimpleName());
     }
 
     @Override
-    @Step("Verificando la pagina de your information page")
+    @Step("Verificando la pantalla Your Information")
     public void verifyPage() {
-        Logs.info("Verificando la pagina de your information page");
+        Logs.info("Verificando la pantalla Your Information");
 
         softAssert().assertTrue(find(firstNameInput).isDisplayed());
         softAssert().assertTrue(find(lastNameInput).isDisplayed());
@@ -38,19 +38,19 @@ public class YourInformationPage extends BasePage {
     @Step("Rellenando el formulario")
     public void fillData(String name, String lastname, String zipcode) {
         if (!name.isEmpty()) { //si el name es vacio no se escribe
-            Logs.info("Escribiendo el name");
+            Logs.info("Escribiendo el nombre");
             find(firstNameInput).sendKeys(name);
         }
         if (!lastname.isEmpty()) { //si el lastname es vacio no se escribe
-            Logs.info("Escribiendo el lastname");
+            Logs.info("Escribiendo el apellido");
             find(lastNameInput).sendKeys(lastname);
         }
         if (!zipcode.isEmpty()) { //si el zipcode es vacio no se escribe
-            Logs.info("Escribiendo el zipcode");
+            Logs.info("Escribiendo el código postal");
             find(zipcodeInput).sendKeys(zipcode);
         }
 
-        Logs.info("Haciendo click en el boton de continue");
+        Logs.info("Haciendo clic en el botón Continue");
         find(continueButton).click();
     }
 

@@ -186,7 +186,7 @@ public class Gestures {
         Logs.debug("Haciendo swipe desde el punto %s hasta el punto %s", origin, destination);
         final var sequence = new Sequence(FINGER, 1);
 
-        Logs.debug("Movemos el dedo hacia la posicion inicial");
+        Logs.debug("Moviendo el dedo hacia la posición inicial");
         sequence.addAction(
                 FINGER.createPointerMove(
                         Duration.ZERO,
@@ -195,13 +195,13 @@ public class Gestures {
                 )
         );
 
-        Logs.debug("Tocamos la pantalla en el punto de origen");
+        Logs.debug("Tocando la pantalla en el punto de origen");
         sequence.addAction(FINGER.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
-        Logs.debug("Agregamos una breve  pausa");
+        Logs.debug("Agregando una breve pausa");
         sequence.addAction(new Pause(FINGER, Duration.ofMillis(SWIPE_PAUSE_MS)));
 
-        Logs.debug("Movemos el dedo hacia la posicion final");
+        Logs.debug("Moviendo el dedo hacia la posición final");
         sequence.addAction(
                 FINGER.createPointerMove(
                         Duration.ofMillis(SWIPE_MOVE_MS),
@@ -210,7 +210,7 @@ public class Gestures {
                 )
         );
 
-        Logs.debug("Dejamos de tocar la pantalla en el punto de destino");
+        Logs.debug("Dejando de tocar la pantalla en el punto de destino");
         sequence.addAction(FINGER.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Ejecutando las acciones");

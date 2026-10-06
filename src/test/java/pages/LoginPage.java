@@ -24,15 +24,15 @@ public class LoginPage extends BasePage {
 
 
     @Override
-    @Step("Esperando que cargue la pagina de Login")
+    @Step("Esperando que cargue la pantalla Login")
     public void waitPageToLoad() {
         waitPage(usernameInput, this.getClass().getSimpleName());
     }
 
     @Override
-    @Step("Verificando la pagina de login")
+    @Step("Verificando la pantalla Login")
     public void verifyPage() {
-        Logs.info("Verificando la pagina de login");
+        Logs.info("Verificando la pantalla Login");
         softAssert().assertTrue(find(usernameInput).isDisplayed());
         softAssert().assertTrue(find(passwordInput).isDisplayed());
         softAssert().assertTrue(find(loginButton).isDisplayed());
@@ -47,16 +47,16 @@ public class LoginPage extends BasePage {
         Logs.info("Escribiendo el password");
         find(passwordInput).sendKeys(password);
 
-        Logs.info("Haciendo click en el boton de login");
+        Logs.info("Haciendo clic en el botón Login");
         find(loginButton).click();
     }
 
-    @Step("Rellenando formulario login con tap")
+    @Step("Rellenando el formulario de login con tap")
     public void fillDataTap() {
         Logs.info("Haciendo tap en el label de standard_user");
         Gestures.tap(find(standardUserLabel));
 
-        Logs.info("Haciendo click en login");
+        Logs.info("Haciendo clic en el botón Login");
         find(loginButton).click();
     }
 

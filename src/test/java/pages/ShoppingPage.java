@@ -23,15 +23,15 @@ public class ShoppingPage extends BasePage {
 
 
     @Override
-    @Step("Esperando que la pagina de Shopping cargue")
+    @Step("Esperando que cargue la pantalla Shopping")
     public void waitPageToLoad() {
         waitPage(title, this.getClass().getSimpleName());
     }
 
     @Override
-    @Step("Verificando la pagina de Shopping")
+    @Step("Verificando la pantalla Shopping")
     public void verifyPage() {
-        Logs.info("Verificando la pagina de Shopping");
+        Logs.info("Verificando la pantalla Shopping");
         softAssert().assertTrue(find(title).isDisplayed());
         softAssert().assertTrue(find(filterButton).isDisplayed());
         softAssert().assertTrue(find(toggleViewButton).isDisplayed());
@@ -39,11 +39,11 @@ public class ShoppingPage extends BasePage {
         softAssert().assertAll();
     }
 
-    @Step("Haciendo click en la imagen del item segun su index")
+    @Step("Haciendo clic en la imagen del ítem según su índice")
     public void clickItemImage(int index) {
-        Logs.info("Haciendo click en la imagen del item segun su index");
+        Logs.info("Haciendo clic en la imagen del ítem según su índice");
         final var elements = findAll(imageList);
-        Logs.info("Cantidad de imagenes encontradas: %d", elements.size());
+        Logs.info("Cantidad de imágenes encontradas: %d", elements.size());
         elements.get(index).click();
     }
 
@@ -58,9 +58,9 @@ public class ShoppingPage extends BasePage {
         waitForDisplayed(handleList);
     }
 
-    @Step("Arrastrando el item hacia la barra para agregar al carrito segun cantidad")
+    @Step("Arrastrando ítems hacia la barra para agregar al carrito según cantidad")
     public void addToCartDrag(int cantidad) {
-        Logs.info("Arrastrando el item hacia la barra para agregar al carrito segun cantidad");
+        Logs.info("Arrastrando ítems hacia la barra para agregar al carrito según cantidad");
         final var destinyElement = find(dropZone);
 
         for (int i = 0; i < cantidad; i++) {
@@ -75,7 +75,7 @@ public class ShoppingPage extends BasePage {
      * Solo se usa la cantidad ({@code itemListAdd.size()}): los valores de la lista
      * no seleccionan items concretos; siempre se arrastra el primer item visible.
      */
-    @Step("Arrastrando items hacia la barra para agregar al carrito segun lista")
+    @Step("Arrastrando ítems hacia la barra para agregar al carrito según lista")
     public void addToCartDrag(List<Integer> itemListAdd) {
         addToCartDrag(itemListAdd.size());
     }

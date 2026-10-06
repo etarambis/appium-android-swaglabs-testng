@@ -17,33 +17,33 @@ public class YourCartPage extends BasePage {
                     ".scrollIntoView(new UiSelector().description(\"test-CHECKOUT\"))");
 
     @Override
-    @Step("Esperando que la pagina de your cart cargue")
+    @Step("Esperando que cargue la pantalla Your Cart")
     public void waitPageToLoad() {
         waitPage(itemList, this.getClass().getSimpleName());
     }
 
     @Override
-    @Step("Verificando la pagina de your cart")
+    @Step("Verificando la pantalla Your Cart")
     public void verifyPage() {
-        Logs.info("Verificando la pagina de your cart");
+        Logs.info("Verificando la pantalla Your Cart");
         softAssert().assertTrue(find(itemList).isDisplayed());
         softAssert().assertAll();
     }
 
-    @Step("Eliminando un item de la lista por su index")
+    @Step("Eliminando un ítem de la lista por su índice")
     public void deleteItemFromList(int index) {
-        Logs.info("Eliminando un item de la lista por su index: %d", index);
+        Logs.info("Eliminando un ítem de la lista por su índice: %d", index);
         final var canvas = findAll(itemList).get(index);
         Gestures.swipeHorizontal(50,60,20, canvas);
 
-        Logs.info("Haciendo click en el boton de eliminar");
+        Logs.info("Haciendo clic en el botón Delete");
         Gestures.tap(find(deleteButton));
 
     }
 
-    @Step("Haciendo click en el boton de checkout")
+    @Step("Haciendo clic en el botón Checkout")
     public void clickCheckout() {
-        Logs.info("Haciendo click en el boton de checkout");
+        Logs.info("Haciendo clic en el botón Checkout");
         find(checkoutButton).click();
     }
 

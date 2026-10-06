@@ -27,6 +27,6 @@ public class TestListeners implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        Logs.info("Test ignorando: %s", result.getName());
+        Logs.info("Test omitido: %s", result.getName());
     }
 }

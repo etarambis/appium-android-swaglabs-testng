@@ -51,7 +51,7 @@ public abstract class BasePage {
     }
 
     protected void waitPage(By locator, String pageName) {
-        Logs.info("Esperando que la pagina %s cargue", pageName);
+        Logs.info("Esperando que cargue la pantalla %s", pageName);
         waitForDisplayed(locator, timeOut);
         Logs.info("%s ha cargado satisfactoriamente", pageName);
     }
@@ -64,7 +64,7 @@ public abstract class BasePage {
         return getDriver().findElements(locator);
     }
     public void pressBack() {
-        Logs.info("Presionando atras en el dispositivo movil");
+        Logs.info("Presionando atrás en el dispositivo móvil");
         getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
     }
 

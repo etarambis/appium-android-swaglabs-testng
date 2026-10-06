@@ -11,28 +11,28 @@ public class BurgerMenu extends BasePage {
     private final By closeButton  = AppiumBy.accessibilityId("test-Close");
 
     @Override
-    @Step("Esperando que el burger menu cargue")
+    @Step("Esperando que cargue la pantalla Burger Menu")
     public void waitPageToLoad() {
         waitPage(logoutButton, this.getClass().getSimpleName());
     }
 
     @Override
-    @Step("Verificando el burger menu")
+    @Step("Verificando la pantalla Burger Menu")
     public void verifyPage() {
-        Logs.info("Verificando el burger menu");
+        Logs.info("Verificando la pantalla Burger Menu");
         softAssert().assertTrue(find(logoutButton).isDisplayed());
         softAssert().assertAll();
     }
 
-    @Step("Haciendo click en el boton de logout")
+    @Step("Haciendo clic en el botón Logout")
     public void clickLogout(){
-        Logs.info("haciendo click en el boton de logout");
+        Logs.info("Haciendo clic en el botón Logout");
         find(logoutButton).click();
     }
 
-    @Step("Haciendo click en la x")
+    @Step("Haciendo clic en la X de cierre")
     public void clickCloseX(){
-        Logs.info("haciendo click en la x");
+        Logs.info("Haciendo clic en la X de cierre");
         find(closeButton).click();
     }
 

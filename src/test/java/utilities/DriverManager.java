@@ -34,7 +34,7 @@ public class DriverManager {
         }
 
         try {
-            Logs.debug("Matando al driver");
+            Logs.debug("Cerrando el driver");
             driver.quit();
         } catch (WebDriverException webDriverException) {
             Logs.error("Error al cerrar el driver: %s", webDriverException.getMessage());
@@ -49,7 +49,7 @@ public class DriverManager {
             final var appiumUrl = "http://127.0.0.1:4723/";
             final var desiredCapabilities = getDesiredLocalCapabilities();
 
-            Logs.debug("Inicializando el DRIVER");
+            Logs.debug("Inicializando el driver");
             final var driver = createDriver(new URL(appiumUrl), desiredCapabilities);
 
             Logs.debug("Asignando el driver al driver provider");
@@ -57,7 +57,7 @@ public class DriverManager {
 
         } catch (MalformedURLException malformedURLException) {
 
-            Logs.error("Error al inicializar el DRIVER: %s", malformedURLException.getMessage());
+            Logs.error("Error al inicializar el driver: %s", malformedURLException.getMessage());
             throw new RuntimeException(malformedURLException);
         }
     }
@@ -74,7 +74,7 @@ public class DriverManager {
                 if (attempt >= DRIVER_CREATION_ATTEMPTS) {
                     throw exception;
                 }
-                Logs.warning("No se pudo crear la sesion (intento %d de %d): %s",
+                Logs.warning("No se pudo crear la sesión (intento %d de %d): %s",
                         attempt, DRIVER_CREATION_ATTEMPTS, exception.getMessage());
             }
         }
