@@ -43,12 +43,12 @@ public class ItemDetailPage extends BasePage {
     public void verifyPage() {
         Logs.info("Verificando la pagina del detalle del item");
 
-        softAssert.assertTrue(find(backProductsButton).isDisplayed());
-        softAssert.assertTrue(find(itemImage).isDisplayed());
-        softAssert.assertTrue(find(itemPrice).isDisplayed());
-        softAssert.assertTrue(getTitleElement().isDisplayed());
-        softAssert.assertTrue(getDescriptionElement().isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(backProductsButton).isDisplayed());
+        softAssert().assertTrue(find(itemImage).isDisplayed());
+        softAssert().assertTrue(find(itemPrice).isDisplayed());
+        softAssert().assertTrue(getTitleElement().isDisplayed());
+        softAssert().assertTrue(getDescriptionElement().isDisplayed());
+        softAssert().assertAll();
 
         Gestures.swipeVertical(50,70,30, find(canvas));
         Assert.assertTrue(find(addCartButton).isDisplayed(), "El boton de agregar al carrito no se encuentra visible");
@@ -68,9 +68,9 @@ public class ItemDetailPage extends BasePage {
         final var priceDollar = find(itemPrice).getText();
         final var priceNoDollar = Double.parseDouble(priceDollar.replace("$", ""));
 
-        softAssert.assertEquals(getTitleElement().getText(), itemName);
-        softAssert.assertEquals(priceNoDollar, expectedPrice);
-        softAssert.assertAll();
+        softAssert().assertEquals(getTitleElement().getText(), itemName);
+        softAssert().assertEquals(priceNoDollar, expectedPrice);
+        softAssert().assertAll();
     }
 
 }

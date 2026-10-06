@@ -33,10 +33,10 @@ public class LoginPage extends BasePage {
     @Step("Verificando la pagina de login")
     public void verifyPage() {
         Logs.info("Verificando la pagina de login");
-        softAssert.assertTrue(find(usernameInput).isDisplayed());
-        softAssert.assertTrue(find(passwordInput).isDisplayed());
-        softAssert.assertTrue(find(loginButton).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(usernameInput).isDisplayed());
+        softAssert().assertTrue(find(passwordInput).isDisplayed());
+        softAssert().assertTrue(find(loginButton).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Rellenando el formulario de login")
@@ -66,9 +66,9 @@ public class LoginPage extends BasePage {
         final var errorMessageElement = waitForDisplayed(errorMessage, Timeouts.ERROR_MESSAGE_WAIT);
 
         Logs.info("Verificando el mensaje de error");
-        softAssert.assertTrue(errorMessageElement.isDisplayed());
-        softAssert.assertEquals(errorMessageElement.getText(), errorText);
-        softAssert.assertAll();
+        softAssert().assertTrue(errorMessageElement.isDisplayed());
+        softAssert().assertEquals(errorMessageElement.getText(), errorText);
+        softAssert().assertAll();
     }
 
     @Step("Verificando los labels de credenciales")
@@ -76,11 +76,11 @@ public class LoginPage extends BasePage {
         Logs.info("Verificando los labels de credenciales");
         Gestures.swipeVertical(50, 50, 20, find(mainCanvas));
 
-        softAssert.assertTrue(find(standardUserLabel).isDisplayed());
-        softAssert.assertTrue(find(lockedUserLabel).isDisplayed());
-        softAssert.assertTrue(find(problemUserLabel).isDisplayed());
-        softAssert.assertTrue(find(passwordLabel).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(standardUserLabel).isDisplayed());
+        softAssert().assertTrue(find(lockedUserLabel).isDisplayed());
+        softAssert().assertTrue(find(problemUserLabel).isDisplayed());
+        softAssert().assertTrue(find(passwordLabel).isDisplayed());
+        softAssert().assertAll();
     }
 
 }

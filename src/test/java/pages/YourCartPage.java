@@ -25,8 +25,8 @@ public class YourCartPage extends BasePage {
     @Step("Verificando la pagina de your cart")
     public void verifyPage() {
         Logs.info("Verificando la pagina de your cart");
-        softAssert.assertTrue(find(itemList).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(itemList).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Eliminando un item de la lista por su index")

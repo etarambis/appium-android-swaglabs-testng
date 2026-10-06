@@ -28,11 +28,11 @@ public class YourInformationPage extends BasePage {
     public void verifyPage() {
         Logs.info("Verificando la pagina de your information page");
 
-        softAssert.assertTrue(find(firstNameInput).isDisplayed());
-        softAssert.assertTrue(find(lastNameInput).isDisplayed());
-        softAssert.assertTrue(find(zipcodeInput).isDisplayed());
-        softAssert.assertTrue(find(continueButton).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(firstNameInput).isDisplayed());
+        softAssert().assertTrue(find(lastNameInput).isDisplayed());
+        softAssert().assertTrue(find(zipcodeInput).isDisplayed());
+        softAssert().assertTrue(find(continueButton).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Rellenando el formulario")
@@ -59,8 +59,8 @@ public class YourInformationPage extends BasePage {
         Logs.info("Verificando el mensaje de error");
         final var errorLabelElement = waitForDisplayed(errorLabel, Timeouts.ERROR_MESSAGE_WAIT);
 
-        softAssert.assertTrue(errorLabelElement.isDisplayed());
-        softAssert.assertEquals(errorLabelElement.getText(), errorMessage);
-        softAssert.assertAll();
+        softAssert().assertTrue(errorLabelElement.isDisplayed());
+        softAssert().assertEquals(errorLabelElement.getText(), errorMessage);
+        softAssert().assertAll();
     }
 }

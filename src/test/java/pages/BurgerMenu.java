@@ -20,8 +20,8 @@ public class BurgerMenu extends BasePage {
     @Step("Verificando el burger menu")
     public void verifyPage() {
         Logs.info("Verificando el burger menu");
-        softAssert.assertTrue(find(logoutButton).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(logoutButton).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Haciendo click en el boton de logout")

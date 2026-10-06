@@ -17,6 +17,7 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void masterSetUp() {
 
+        BasePage.resetSoftAssert();
         driverManager.buildDriver();
     }
 

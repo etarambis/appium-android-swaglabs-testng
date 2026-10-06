@@ -23,9 +23,9 @@ public class TopBar extends BasePage {
     @Step("Verificando la barra superior")
     public void verifyPage() {
         Logs.info("Verificando la barra superior");
-        softAssert.assertTrue(find(burgerButton).isDisplayed());
-        softAssert.assertTrue(find(checkoutButton).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(burgerButton).isDisplayed());
+        softAssert().assertTrue(find(checkoutButton).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Abriendo el burger menu")

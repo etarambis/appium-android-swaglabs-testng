@@ -13,16 +13,28 @@ import java.time.Duration;
 import java.util.List;
 
 public abstract class BasePage {
-    protected final SoftAssert softAssert;
+    private static final ThreadLocal<SoftAssert> SOFT_ASSERT = ThreadLocal.withInitial(SoftAssert::new);
     private final int timeOut;
 
     public BasePage(int timeOut) {
-        softAssert = new SoftAssert();
         this.timeOut = timeOut;
     }
 
     public BasePage() {
         this(Timeouts.DEFAULT_WAIT); //llamo al constructor de arriba con el default timeout
+    }
+
+    /**
+     * SoftAssert del test en ejecucion. Se comparte entre las paginas del mismo hilo
+     * y se reinicia antes de cada test con {@link #resetSoftAssert()}, porque un
+     * assertAll() fallido conserva sus errores y contaminaria al test siguiente.
+     */
+    protected SoftAssert softAssert() {
+        return SOFT_ASSERT.get();
+    }
+
+    public static void resetSoftAssert() {
+        SOFT_ASSERT.remove();
     }
 
     protected AndroidDriver getDriver() {

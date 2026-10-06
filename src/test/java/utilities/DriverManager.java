@@ -1,13 +1,17 @@
 package utilities;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DriverManager {
+    private static final int DRIVER_CREATION_ATTEMPTS = 2;
+
     private final boolean runServer = System.getenv("JOB_NAME") != null;
 
     public void buildDriver(){
@@ -31,7 +35,7 @@ public class DriverManager {
             final var desiredCapabilities = getDesiredLocalCapabilities();
 
             Logs.debug("Inicializando el DRIVER");
-            final var driver = new AndroidDriver(new URL(appiumUrl), desiredCapabilities);
+            final var driver = createDriver(new URL(appiumUrl), desiredCapabilities);
 
             Logs.debug("Asignando el driver al driver provider");
             new DriverProvider().set(driver);
@@ -40,6 +44,24 @@ public class DriverManager {
 
             Logs.error("Error al inicializar el DRIVER: %s", malformedURLException.getMessage());
             throw new RuntimeException(malformedURLException);
+        }
+    }
+
+    /**
+     * Reintenta solo la creacion de la sesion ante fallos de infraestructura
+     * (sesion no creada o servidor Appium inalcanzable).
+     */
+    private AndroidDriver createDriver(URL appiumUrl, DesiredCapabilities capabilities) {
+        for (var attempt = 1; ; attempt++) {
+            try {
+                return new AndroidDriver(appiumUrl, capabilities);
+            } catch (SessionNotCreatedException | UnreachableBrowserException exception) {
+                if (attempt >= DRIVER_CREATION_ATTEMPTS) {
+                    throw exception;
+                }
+                Logs.warning("No se pudo crear la sesion (intento %d de %d): %s",
+                        attempt, DRIVER_CREATION_ATTEMPTS, exception.getMessage());
+            }
         }
     }
 
@@ -54,6 +76,8 @@ public class DriverManager {
         final var fileAPK = new File("src/test/resources/apk/sauceLabs.apk");
 
         desiredCapabilities.setCapability("appium:autoGrantPermissions", true);
+        // Evita que las animaciones de ventana del emulador hagan inestables esperas y gestos
+        desiredCapabilities.setCapability("appium:disableWindowAnimation", true);
         desiredCapabilities.setCapability("appium:appWaitActivity", "com.swaglabsmobileapp.MainActivity");
         desiredCapabilities.setCapability("appium:platformName", "Android");
         desiredCapabilities.setCapability("appium:automationName", "UiAutomator2");

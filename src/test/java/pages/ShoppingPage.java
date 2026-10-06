@@ -32,11 +32,11 @@ public class ShoppingPage extends BasePage {
     @Step("Verificando la pagina de Shopping")
     public void verifyPage() {
         Logs.info("Verificando la pagina de Shopping");
-        softAssert.assertTrue(find(title).isDisplayed());
-        softAssert.assertTrue(find(filterButton).isDisplayed());
-        softAssert.assertTrue(find(toggleViewButton).isDisplayed());
-        softAssert.assertTrue(find(itemList).isDisplayed());
-        softAssert.assertAll();
+        softAssert().assertTrue(find(title).isDisplayed());
+        softAssert().assertTrue(find(filterButton).isDisplayed());
+        softAssert().assertTrue(find(toggleViewButton).isDisplayed());
+        softAssert().assertTrue(find(itemList).isDisplayed());
+        softAssert().assertAll();
     }
 
     @Step("Haciendo click en la imagen del item segun su index")
