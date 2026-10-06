@@ -23,6 +23,7 @@ Framework de automatización de pruebas móviles (Android) para la app **Swag La
 | AspectJ Weaver | 1.9.24 | Agente Java requerido por `@Step`/`@Attachment` |
 | Maven Surefire | 3.2.5 | Ejecución de tests (`testFailureIgnore=true`) |
 | Log4j2 (core + api) | 2.26.1 | Logging (logger `AUTOMATION`) |
+| log4j-slf4j-impl | 2.26.1 | Binding SLF4J 1.x → Log4j2 (TestNG 7.10.2 usa `slf4j-api` 1.7.36) |
 | Poiji | 5.4.0 | Lectura de Excel a objetos Java |
 | Jackson Databind | 2.22.2 | Lectura de JSON |
 | Datafaker | 2.7.0 | Datos aleatorios (nombre, apellido, código postal) |
@@ -36,6 +37,8 @@ Framework de automatización de pruebas móviles (Android) para la app **Swag La
 AppiumTestNG/
 ├── pom.xml                      # Dependencias y plugins
 ├── mvnw / mvnw.cmd              # Maven Wrapper
+├── .github/workflows/ci.yml     # CI: compila con mvn test-compile
+├── .gitattributes               # Finales de línea (LF en scripts) y binarios
 ├── runSuite.sh                  # Ejecuta el grupo regression
 ├── openAllure.sh                # Genera y abre el reporte Allure
 ├── .allure/                     # Allure CLI 2.30.0 local
@@ -83,13 +86,25 @@ AppiumTestNG/
    appium driver install uiautomator2
    ```
 4. **Android SDK** con `adb` y un **emulador (AVD)** o dispositivo físico, con la variable de entorno `ANDROID_HOME` configurada (y `platform-tools` en el `PATH`).
-5. **APK** de la app en `src/test/resources/apk/sauceLabs.apk` (ya incluido en el repositorio).
+5. **APK** de la app en `src/test/resources/apk/sauceLabs.apk` (ya incluido en el repositorio). Ver [Sobre el APK](#sobre-el-apk).
 6. Servidor de Appium **en ejecución** en `http://127.0.0.1:4723/` antes de lanzar los tests (el proyecto no lo inicia):
    ```bash
    appium
    ```
 
 ---
+
+### Sobre el APK
+
+`sauceLabs.apk` (25 MB) es la app de demo **Swag Labs** (paquete `com.swaglabsmobileapp`) de Sauce Labs, cuyo repositorio de código, [saucelabs/sample-app-mobile](https://github.com/saucelabs/sample-app-mobile), declara licencia MIT.
+
+> **Aviso:** no se ha verificado que este binario concreto sea un build oficial de ese repositorio ni que su redistribución esté permitida. Si prefieres no depender de él, descarga el APK desde la sección *Releases* de ese repositorio y colócalo en `src/test/resources/apk/sauceLabs.apk`.
+
+SHA-256 del archivo incluido, para comprobar su integridad:
+
+```
+f1793404b21e2ea29c8e203ebc1b1fd16c685d701cfb405c243bfbb520e9bce6
+```
 
 ## Configuración
 
@@ -113,7 +128,7 @@ No se define `deviceName`/`udid`: Appium usa el dispositivo o emulador conectado
 - **Definida** (p. ej. en un job de CI) → se invoca `buildRemoteDriver()`, que **actualmente está vacío** (sin implementar). Con `JOB_NAME` definida no se crea ningún driver.
 
 ### Datos de prueba
-- `src/test/resources/data/credenciales.json`: credenciales `valid`, `locked` e `invalid` con su mensaje de error esperado. Se leen con `JsonReader` y se exponen con `DataGiver`.
+- `src/test/resources/data/credenciales.json`: credenciales `valid`, `locked` e `invalid` con su mensaje de error esperado. Son las **credenciales de demo públicas de Swag Labs** (`standard_user`, `locked_out_user`, contraseña `secret_sauce`); el repositorio no contiene ningún secreto real. Se leen con `JsonReader` y se exponen con `DataGiver`.
 - `src/test/resources/data/dataExcel.xlsx` (hoja `mensajes`, columnas `NOMBRE` y `MENSAJE`): mensajes de error del formulario *Your Information* (`error_name`, `error_lastname`, `error_zipcode`). Se leen con Poiji (`ExcelReader` → `Parser`).
 - `models.User` genera nombre, apellido y código postal aleatorios con Datafaker.
 
@@ -154,6 +169,12 @@ En Windows usar `mvnw.cmd` en lugar de `./mvnw`, o ejecutar los `.sh` desde Git 
 > `testFailureIgnore=true` está activo: el build termina en `SUCCESS` aunque haya tests fallidos. Revisa siempre el resumen o el reporte.
 
 ---
+
+## Integración continua
+
+El workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) ejecuta `./mvnw -B test-compile` en cada *push* a `main` y en cada *pull request* (JDK 17, Temurin, con caché de Maven).
+
+**Alcance:** el CI **solo comprueba que el proyecto compila**. No ejecuta los tests: necesitan un emulador Android y un servidor Appium, que un runner de GitHub Actions no tiene. Los tests se ejecutan en local (ver [Cómo ejecutar](#cómo-ejecutar)); el resultado de la última ejecución está en [Problemas conocidos](#problemas-conocidos).
 
 ## Reporte de Allure
 
