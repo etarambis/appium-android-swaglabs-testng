@@ -194,13 +194,15 @@ Total: 15 métodos, 18 ejecuciones contando los DataProviders.
 
 ## Problemas conocidos
 
-> **Importante:** los fallos de estabilidad de abajo **no se han podido verificar en un emulador** tras las correcciones. Se documentan con su causa probable y su estado real, sin darlos por resueltos.
+> Estado verificado en emulador (Android, Appium 3.7.0): la suite `regression` se ejecutó con 15 de 18 pasados y 3 omitidos; tras la última corrección, `YourInformationTests` pasa 3 de 3. **No se ha vuelto a ejecutar la suite completa después de ese último cambio.**
 
 | Test | Causa | Estado |
 |---|---|---|
-| `ItemDetailTests` (todos) y `DeeplinkTests.itemDetailDeeplinkTest` | `ItemDetailPage.canvas` buscaba `android.view.ScrollView`, pero el page source guardado por el propio test fallido muestra la pantalla ya cargada con `android.widget.ScrollView`. La espera de 20 s agotaba su tiempo con la pantalla visible, y al fallar el `setUp` se omitían los tests de la clase. | **Corregido en el código, pendiente de verificar en emulador.** Causa respaldada por evidencia (page source). |
-| `YourInformationTests` | **Sin causa confirmada ni reproducida.** Hipótesis: (A) `YourCartPage.clickCheckout` hace swipe sobre `test-Cart Content`, un locator no validado contra la UI real; (B) los dos arrastres del `setUp` (`Gestures.dragTo`, unos 5 s cada uno) son sensibles a animaciones y rendimiento del emulador; (C) `verifyErrorMessage` no esperaba el mensaje. | Mitigaciones aplicadas para B y C (animaciones desactivadas, espera explícita). **A sigue pendiente: validar `test-Cart Content` con Appium Inspector.** |
-| `ShoppingPage.changeViewMode` | Ahora espera los `test-Drag Handle` en lugar de dormir 1,5 s. Se asume que esos elementos solo existen en modo lista. | **Supuesto pendiente de validar con Appium Inspector.** |
+| `ItemDetailTests` y `DeeplinkTests.itemDetailDeeplinkTest` | `ItemDetailPage.canvas` buscaba `android.view.ScrollView`, pero la clase real es `android.widget.ScrollView`. La espera de 20 s agotaba su tiempo con la pantalla visible. | **Corregido y verificado**: pasan en emulador. |
+| `YourInformationTests` | `YourCartPage.clickCheckout` hacía un swipe manual que no desplazaba el carrito; `test-CHECKOUT` quedaba fuera de pantalla y el `setUp` fallaba siempre. | **Corregido y verificado**: se usa `UiScrollable.scrollIntoView` sobre `test-Cart Content`; pasa 3 de 3. |
+| `ShoppingPage.changeViewMode` | Espera los `test-Drag Handle` en lugar de dormir 1,5 s. | **Verificado**: `dragDropItemCartTest` y `deleteSwipeTest` pasan. |
+
+Las hipótesis iniciales sobre el locator `test-Cart Content` y los arrastres del `setUp` resultaron incorrectas: el locator es válido y los arrastres funcionan.
 
 Otros puntos pendientes:
 
