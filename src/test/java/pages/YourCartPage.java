@@ -11,6 +11,8 @@ public class YourCartPage extends BasePage {
     private final By itemList = AppiumBy.accessibilityId("test-Item");
     private final By deleteButton = AppiumBy.accessibilityId("test-Delete");
     private final By checkoutButton = AppiumBy.accessibilityId("test-CHECKOUT");
+    // TODO(validar con Appium Inspector): "test-Cart Content" no esta en ningun page source guardado;
+    // confirmar que es el contenedor desplazable de YourCartPage antes de confiar en el swipe de clickCheckout.
     private final By canvas = AppiumBy.accessibilityId("test-Cart Content");
 
     @Override
