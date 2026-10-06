@@ -64,7 +64,7 @@ AppiumTestNG/
 |---|---|
 | `pages` | Un Page Object por pantalla: `LoginPage`, `ShoppingPage`, `ItemDetailPage`, `YourCartPage`, `YourInformationPage`, `TopBar`, `BurgerMenu`. Cada uno define sus locators y acciones con `@Step`. |
 | `saucedemo` | Clases de test. Todas extienden `BaseTest`. |
-| `utilities` | `BaseTest` (setup/teardown del driver y listeners), `BasePage` (esperas y helpers), `CommonFlows` (flujos reutilizables de navegación), `DriverManager`/`DriverProvider` (creación y `ThreadLocal` del driver), `Gestures` (tap, long tap, double tap, drag, swipe), `Groups` (constantes de grupos), `Timeouts` (esperas centralizadas), `Deeplinks`, `ContextUtilities`, `FileManager` (screenshots y page source), `Logs`. |
+| `utilities` | `BaseTest` (setup/teardown del driver y listeners), `BasePage` (esperas y helpers), `CommonFlows` (flujos reutilizables de navegación), `DriverManager`/`DriverProvider` (creación y `ThreadLocal` del driver), `Gestures` (tap, long tap, double tap, drag, swipe), `Groups` (constantes de grupos), `Timeouts` (esperas centralizadas), `Deeplinks`, `FileManager` (screenshots y page source), `Logs`. |
 | `data` | `DataGiver` (credenciales), `JsonReader`, `ExcelReader`, `Parser` y `CustomDataProviders`. |
 | `models` | `Credential`, `CredentialJson`, `ErrorMessage` (Poiji), `User` (Datafaker). |
 | `listeners` | `TestListeners` (ITestListener), `SuiteListeners` (ISuiteListener) y `AllureListeners` (adjunta evidencia en Allure). |

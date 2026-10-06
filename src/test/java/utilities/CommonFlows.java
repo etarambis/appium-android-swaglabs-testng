@@ -1,7 +1,13 @@
 package utilities;
 
 import data.DataGiver;
-import pages.*;
+import pages.BurgerMenu;
+import pages.ItemDetailPage;
+import pages.LoginPage;
+import pages.ShoppingPage;
+import pages.TopBar;
+import pages.YourCartPage;
+import pages.YourInformationPage;
 
 import java.util.List;
 
