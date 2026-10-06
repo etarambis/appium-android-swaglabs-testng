@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import utilities.BasePage;
 import utilities.Gestures;
 import utilities.Logs;
+import utilities.Timeouts;
 
 public class LoginPage extends BasePage {
     private final By usernameInput = AppiumBy.accessibilityId("test-Username");
@@ -62,7 +63,7 @@ public class LoginPage extends BasePage {
     @Step("Verificando el mensaje de error")
     public void verifyErrorMessage(String errorText) {
         Logs.info("Esperando que el mensaje de error aparezca");
-        final var errorMessageElement = waitForDisplayed(errorMessage, 3);
+        final var errorMessageElement = waitForDisplayed(errorMessage, Timeouts.ERROR_MESSAGE_WAIT);
 
         Logs.info("Verificando el mensaje de error");
         softAssert.assertTrue(errorMessageElement.isDisplayed());

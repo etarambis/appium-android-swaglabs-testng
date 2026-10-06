@@ -12,6 +12,17 @@ import java.util.List;
 
 public class Gestures {
 
+    // Duraciones de los gestos, en milisegundos
+    private static final int MOVE_TO_ELEMENT_MS = 1000;
+    private static final int TAP_HOLD_MS = 1000;
+    private static final int LONG_TAP_HOLD_MS = 3500;
+    private static final int DRAG_APPROACH_MS = 500;
+    private static final int DRAG_PRESS_MS = 2000;
+    private static final int DRAG_MOVE_MS = 1000;
+    private static final int DRAG_RELEASE_MS = 1500;
+    private static final int SWIPE_PAUSE_MS = 1000;
+    private static final int SWIPE_MOVE_MS = 1000;
+
     private static final PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
 
     private static AndroidDriver getDriver() {
@@ -26,7 +37,7 @@ public class Gestures {
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(1000),
+                        Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
                         puntoCentro
                 )
@@ -36,7 +47,7 @@ public class Gestures {
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Esperando 1 segundo");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(1000)));
+        sequence.addAction(new Pause(finger, Duration.ofMillis(TAP_HOLD_MS)));
 
         Logs.debug("Dejando de presionar el elemento");
         sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
@@ -51,7 +62,7 @@ public class Gestures {
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(1000),
+                        Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
                         puntoCentro
                 )
@@ -61,7 +72,7 @@ public class Gestures {
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Esperando 3.5 segundos");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(3500)));
+        sequence.addAction(new Pause(finger, Duration.ofMillis(LONG_TAP_HOLD_MS)));
 
         Logs.debug("Dejando de presionar el elemento");
         sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
@@ -78,7 +89,7 @@ public class Gestures {
         Logs.debug("Moviendo el dedo hacia el elemento");
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(1000),
+                        Duration.ofMillis(MOVE_TO_ELEMENT_MS),
                         PointerInput.Origin.viewport(),
                         puntoCentro
                 )
@@ -89,7 +100,7 @@ public class Gestures {
             sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
             Logs.debug("Esperando 1 segundo");
-            sequence.addAction(new Pause(finger, Duration.ofMillis(1000)));
+            sequence.addAction(new Pause(finger, Duration.ofMillis(TAP_HOLD_MS)));
 
             Logs.debug("Dejando de presionar el elemento");
             sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
@@ -107,7 +118,7 @@ public class Gestures {
         //1. Movemos el dedo hacia el elemento origen
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(500), //duración de la acción
+                        Duration.ofMillis(DRAG_APPROACH_MS), //duración de la acción
                         PointerInput.Origin.viewport(), //área donde se hará la acción
                         centerPointOrigen //punto donde se hará la acción con respecto al canvas
                 )
@@ -117,19 +128,19 @@ public class Gestures {
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         //3. Agregamos una pequeña pausa
-        sequence.addAction(new Pause(finger, Duration.ofMillis(2000)));
+        sequence.addAction(new Pause(finger, Duration.ofMillis(DRAG_PRESS_MS)));
 
         //4. Arrastramos hacia el elemento destino
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(1000), //duración de la acción
+                        Duration.ofMillis(DRAG_MOVE_MS), //duración de la acción
                         PointerInput.Origin.viewport(), //área donde se hará la acción
                         centerPointDestino //punto donde se hará la acción con respecto al canvas
                 )
         );
 
         //5. Agregamos una pequeña pausa
-        sequence.addAction(new Pause(finger, Duration.ofMillis(1500)));
+        sequence.addAction(new Pause(finger, Duration.ofMillis(DRAG_RELEASE_MS)));
 
         //6. Dejamos de tocar la pantalla levantando el dedo
         sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
@@ -188,12 +199,12 @@ public class Gestures {
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
 
         Logs.debug("Agregamos una breve  pausa");
-        sequence.addAction(new Pause(finger, Duration.ofMillis(1000)));
+        sequence.addAction(new Pause(finger, Duration.ofMillis(SWIPE_PAUSE_MS)));
 
         Logs.debug("Movemos el dedo hacia la posicion final");
         sequence.addAction(
                 finger.createPointerMove(
-                        Duration.ofMillis(1000),
+                        Duration.ofMillis(SWIPE_MOVE_MS),
                         PointerInput.Origin.viewport(),
                         destino
                 )

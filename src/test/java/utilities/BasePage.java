@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.util.List;
 
 public abstract class BasePage {
-    private final static int defaultTimeout = 5;
     protected final SoftAssert softAssert;
     private final int timeOut;
 
@@ -23,7 +22,7 @@ public abstract class BasePage {
     }
 
     public BasePage() {
-        this(defaultTimeout); //llamo al constructor de arriba con el default timeout
+        this(Timeouts.DEFAULT_WAIT); //llamo al constructor de arriba con el default timeout
     }
 
     protected AndroidDriver getDriver() {
@@ -36,7 +35,7 @@ public abstract class BasePage {
     }
 
     protected WebElement waitForDisplayed(By locator) {
-        return waitForDisplayed(locator, defaultTimeout);
+        return waitForDisplayed(locator, Timeouts.DEFAULT_WAIT);
     }
 
     protected void waitPage(By locator, String pageName) {

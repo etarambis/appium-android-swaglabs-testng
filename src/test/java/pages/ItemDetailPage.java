@@ -8,6 +8,7 @@ import org.testng.Assert;
 import utilities.BasePage;
 import utilities.Gestures;
 import utilities.Logs;
+import utilities.Timeouts;
 
 public class ItemDetailPage extends BasePage {
     private final By backProductsButton = AppiumBy.accessibilityId("test-BACK TO PRODUCTS");
@@ -33,7 +34,7 @@ public class ItemDetailPage extends BasePage {
     @Override
     @Step("Esperando a que cargue la pagina del detalle del item")
     public void waitPageToLoad() {
-        waitForDisplayed(canvas, 20);
+        waitForDisplayed(canvas, Timeouts.SLOW_PAGE_WAIT);
         Logs.info("ItemDetailPage ha cargado satisfactoriamente");
     }
 
