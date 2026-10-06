@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import utilities.BasePage;
 import utilities.Logs;
+import utilities.Timeouts;
 
 public class YourInformationPage extends BasePage {
 
@@ -56,7 +57,7 @@ public class YourInformationPage extends BasePage {
     @Step("Verificando el mensaje de error")
     public void verifyErrorMessage(String errorMessage) {
         Logs.info("Verificando el mensaje de error");
-        final var errorLabelElement = find(errorLabel);
+        final var errorLabelElement = waitForDisplayed(errorLabel, Timeouts.ERROR_MESSAGE_WAIT);
 
         softAssert.assertTrue(errorLabelElement.isDisplayed());
         softAssert.assertEquals(errorLabelElement.getText(), errorMessage);

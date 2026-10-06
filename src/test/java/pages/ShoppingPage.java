@@ -52,8 +52,10 @@ public class ShoppingPage extends BasePage {
         Logs.info("Cambiando a modo lista");
         find(toggleViewButton).click();
 
+        // En modo lista aparecen los drag handles que usa addToCartDrag.
+        // Supuesto pendiente de validar con Appium Inspector.
         Logs.info("Esperando que se ordene en formato lista");
-        sleep(1500);
+        waitForDisplayed(handleList);
     }
 
     @Step("Arrastrando el item hacia la barra para agregar al carrito segun cantidad")
