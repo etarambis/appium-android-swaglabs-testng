@@ -11,12 +11,12 @@ public class LoginPage extends BasePage {
     private final By usernameInput = AppiumBy.accessibilityId("test-Username");
     private final By passwordInput = AppiumBy.accessibilityId("test-Password");
     private final By loginButton   = AppiumBy.accessibilityId("test-LOGIN");
-    private final By errorMessage  = AppiumBy.androidUIAutomator("description(\"test-Error message\")" +
-            ".childSelector(className(\"android.widget.TextView\"))");
+    private final By errorMessage  = AppiumBy.androidUIAutomator("new UiSelector().description(\"test-Error message\")" +
+            ".childSelector(new UiSelector().className(\"android.widget.TextView\"))");
     private final By standardUserLabel = AppiumBy.accessibilityId("test-standard_user");
     private final By lockedUserLabel = AppiumBy.accessibilityId("test-locked_out_user");
     private final By problemUserLabel = AppiumBy.accessibilityId("test-problem_user");
-    private final By passwordLabel = AppiumBy.androidUIAutomator("text(\"secret_sauce\")");
+    private final By passwordLabel = AppiumBy.androidUIAutomator("new UiSelector().text(\"secret_sauce\")");
     private final By mainCanvas = AppiumBy.id("android:id/content");
 
 

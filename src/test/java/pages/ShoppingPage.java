@@ -10,7 +10,7 @@ import utilities.Logs;
 import java.util.List;
 
 public class ShoppingPage extends BasePage {
-    private final By title = AppiumBy.androidUIAutomator("text(\"PRODUCTS\")");
+    private final By title = AppiumBy.androidUIAutomator("new UiSelector().text(\"PRODUCTS\")");
     private final By filterButton = AppiumBy.accessibilityId("test-Modal Selector Button");
     private final By toggleViewButton = AppiumBy.accessibilityId("test-Toggle");
     private final By dropZone = AppiumBy.accessibilityId("test-Cart drop zone");

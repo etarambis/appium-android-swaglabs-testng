@@ -14,12 +14,13 @@ public class ItemDetailPage extends BasePage {
     private final By itemDescription = AppiumBy
             .xpath("//android.view.ViewGroup[@content-desc=\"test-Description\"]/android.widget.TextView");
     private final By itemImage = AppiumBy
-            .androidUIAutomator("description(\"test-Image Container\")" +
-                    ".childSelector(className(\"android.widget.ImageView\"))");
+            .androidUIAutomator("new UiSelector().description(\"test-Image Container\")" +
+                    ".childSelector(new UiSelector().className(\"android.widget.ImageView\"))");
     private final By itemPrice = AppiumBy.accessibilityId("test-Price");
     private final By addCartButton = AppiumBy.accessibilityId("test-ADD TO CART");
     private final By canvas = AppiumBy
-            .androidUIAutomator("className(\"android.view.ScrollView\").description(\"test-Inventory item page\")");
+            .androidUIAutomator("new UiSelector().className(\"android.widget.ScrollView\")" +
+                    ".description(\"test-Inventory item page\")");
 
     private WebElement getTitleElement() {
         return findAll(itemDescription).get(0);

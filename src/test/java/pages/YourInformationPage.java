@@ -13,7 +13,8 @@ public class YourInformationPage extends BasePage {
     private final By zipcodeInput = AppiumBy.accessibilityId("test-Zip/Postal Code");
     private final By continueButton = AppiumBy.accessibilityId("test-CONTINUE");
     private final By errorLabel = AppiumBy.androidUIAutomator(
-            "description(\"test-Error message\").childSelector(className(\"android.widget.TextView\"))");
+            "new UiSelector().description(\"test-Error message\")" +
+                    ".childSelector(new UiSelector().className(\"android.widget.TextView\"))");
 
     @Override
     @Step("Esperando que la pagina de your information page cargue")
